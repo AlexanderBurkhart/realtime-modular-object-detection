@@ -1,5 +1,10 @@
 videos/
 data/
 old_models_and_config/
+saved_models/
 /obj-detection-frcnn/cnn/model_frcnn.hdf5
 /obj-detection-frcnn/cnn/config.pickle
+*.old
+*.swp
+*.jpg
+__pycache__/

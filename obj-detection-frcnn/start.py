@@ -12,8 +12,8 @@ import imutils
 w = 960 #960
 h = 540 #540
 
-writing = False
-write_frames = 100
+writing = True
+write_frames = 1000
 
 d = Detection(w,h, zynq_support=False, using_nn=True)
 disp = Display(w,h)
