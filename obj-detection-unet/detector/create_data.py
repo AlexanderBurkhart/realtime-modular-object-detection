@@ -3,7 +3,7 @@ import csv
 
 import cv2
 
-def create_data():
+def create_data(num_frames=4500):
     #go through each frame and label it accordingly with the csv
     frame_labels = read_csv('data/data.csv')
     final_labels = []
@@ -15,9 +15,9 @@ def create_data():
     start = 0
     while True:
         read, frame = vid.read()
-        if not read or i==4500+1:
+        if not read or i==num_frames+1:
             break
-        if i > 2250:
+        if i > num_frames/2:
             folder = 'val'
         name = 'frame'+str(i)
         cv2.imwrite('data/'+folder+'/'+name+'.jpg', frame)
