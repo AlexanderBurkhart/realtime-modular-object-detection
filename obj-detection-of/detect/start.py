@@ -14,15 +14,22 @@ h = 540
 d = Detection()
 disp = Display(w,h)
 
-numframes = 0
-start = time.time()
+writing = False
+write_frames = 1000
+fourcc = cv2.VideoWriter_fourcc(*'H264')
+wvid = cv2.VideoWriter('detection_of.mp4',fourcc,10.0,(w,h))
 
 fvs = FileVideoStream('videos/test.avi').start() #faster than cv2 videowriter
 print('Starting...')
 time.sleep(1.0)
 
+i = 0
 fps = FPS().start()
 while fvs.more():
+    
+    if i == write_frames and writing:
+        break
+
     pimg = fvs.read()
     cimg = fvs.read()
 
@@ -33,6 +40,13 @@ while fvs.more():
     fps.update()
     fps.stop()
     print('fps: %f' % fps.fps())
+    if writing:
+        wvid.write(out)
+    i += 1
+
+if writing:
+    wvid.release()
+    print('Saved video')
 cv2.destroyAllWindows()
 fvs.stop()
            

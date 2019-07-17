@@ -1,6 +1,7 @@
 import cv2
-import time
 import numpy as np
+import time
+
 from display import Display
 from detect import Detection
 
@@ -8,19 +9,16 @@ from imutils.video import FileVideoStream
 from imutils.video import FPS
 import imutils
 
+w = 1024 #960
+h = 576 #540
 
-w = 960 #960
-h = 540 #540
-
-d = Detection(w,h, zynq_support=False, using_nn=True)
+d = Detection(w,h)
 disp = Display(w,h)
 
-writing = True
+writing = False
 write_frames = 1000
 fourcc = cv2.VideoWriter_fourcc(*'H264')
-wvid = cv2.VideoWriter('detection_frcnn.mp4',fourcc,10.0,(w,h))
-
-numframes = 0
+wvid = cv2.VideoWriter('detection_unet.mp4',fourcc,10.0,(w,h))
 
 fvs = FileVideoStream('videos/test.avi').start() #faster than cv2 videowriter
 print('Starting...')
@@ -36,8 +34,8 @@ while fvs.more():
     cimg = fvs.read()
 
     cimg = cv2.resize(cimg, (w,h))
+    out = d.detect_nn(cimg)
     #out = d.cheat_detect(cimg, i)
-    out = d.nn_detect(cimg)
     disp.paint(out)
     fps.update()
     fps.stop()

@@ -187,26 +187,4 @@ class Prediction():
     
             new_boxes, new_probs = roi_helpers.non_max_suppression_fast(bbox, np.array(probs[key]), overlap_thresh=0.5)
             return new_boxes, ratio
-            
-            for jk in range(new_boxes.shape[0]):
-                (x1, y1, x2, y2) = new_boxes[jk,:]
-    
-                (real_x1, real_y1, real_x2, real_y2) = self.get_real_coordinates(ratio, x1, y1, x2, y2)
-   
-                cv2.rectangle(img,(real_x1, real_y1), (real_x2, real_y2), (10, 250, 10),2)
-    
-                #textLabel = '{}: {}'.format(key,int(100*new_probs[jk]))
-                #all_dets.append((key,100*new_probs[jk]))
-    
-                #(retval,baseLine) = cv2.getTextSize(textLabel,cv2.FONT_HERSHEY_COMPLEX,1,1)
-                #textOrg = (real_x1, real_y1-0)
-    
-                #cv2.rectangle(img, (textOrg[0] - 5, textOrg[1]+baseLine - 5), (textOrg[0]+retval[0] + 5, textOrg[1]-retval[1] - 5), (0, 0, 0), 2)
-                #cv2.rectangle(img, (textOrg[0] - 5,textOrg[1]+baseLine - 5), (textOrg[0]+retval[0] + 5, textOrg[1]-retval[1] - 5), (255, 255, 255), -1)
-                #cv2.putText(img, textLabel, textOrg, cv2.FONT_HERSHEY_DUPLEX, 1, (0, 0, 0), 1)
-    
-        #print('Elapsed time = {}'.format(time.time() - st))
-        #print(all_dets)
-        #cv2.imshow('img', img)
-        #cv2.waitKey(0)
-        return img
+
