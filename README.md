@@ -65,3 +65,13 @@ Results for each algorithm are shown below:
     ```bash
     python3 train.py
     ```
+## Run Object Detection
+**Note: models have to be trained before running object detection.**
+- To run the object detection on each algorithm, locate the start.py script in the corresponding algorithm folder and run the following command:
+  ```bash
+  python3 start.py
+  ```
+    - **This script has multiple options:**  
+     - set ```--wr``` to ```True``` if wanting to save a video  
+     - set ```--wf``` to the the number of frames wanting to save to video (otherwise it saves the whole video)  
+     - ```--width``` and ```--height``` can be set for a custom image size
