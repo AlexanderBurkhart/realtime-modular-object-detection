@@ -11,7 +11,7 @@ from keras.models import load_model
 
 class Detection():
     def __init__(self):
-        #self.model = load_model('../train/saved_models/modelv1.h5')
+        self.model = load_model('../train/saved_models/modelv1.h5')
         self.resize_w = 256
         self.resize_h = 128
 
