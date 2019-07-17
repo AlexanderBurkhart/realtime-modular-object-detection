@@ -120,35 +120,4 @@ def load_data(folder):
     print('Returning data...')
     return imgs, imgs_mask
 
-#def load_data(datapath):
-#    imgs = []
-#    bboxes = []
-#    csvpath = datapath+'train.csv'
-#   
-#    labels = []
-#    with open(csvpath, 'r') as f:
-#        prev_imgpath = ''
-#        frame_bboxes = []
-#        r = csv.reader(f)
-#        for row in r:
-#            if prev_imgpath=='':
-#                prev_imgpath = row[0]
-#                img = cv2.imread(row[0])
-#                
-#            if not prev_imgpath==row[0]:
-#                print('Grabbed data from frame: ' + prev_imgpath)
-#                imgs.append(img)
-#                bboxes.append(frame_bboxes)
-#                return imgs, bboxes
-#                frame_bboxes = []
-#                img = cv2.imread(row[0])
-#                prev_imgpath = row[0]
-#            
-#            bbox = []
-#            for i in range(1,5):
-#                bbox.append(int(row[i]))
-#            frame_bboxes.append(bbox)
-#        
-#        return imgs, bboxes
-
 train_and_predict()
