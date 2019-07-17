@@ -44,3 +44,24 @@ Results for each algorithm are shown below:
     python3 train.py
     ```
 ## Train models with Custom Data Set
+- In order for create_data.py to be used on a custom data set the data set should be layed out as followed:
+  - video of file called test.avi inside of the data folder
+  - csv file called data.csv inside of the data folder where each line is configured as shown:
+    ```vim
+    frame_number, top_left_point_x, top_left_point_y, bottom_right_point_x, bottom_right_point_y
+    ```
+- When using a custom data set, create_data.py is ran as shown below:
+  ```bash
+  python3 create_data.py -d custom
+  ```
+- If using Faster R-CNN, once create_data.py is finished, rename the create train.csv to train.txt 
+- Run the following command to train the model/weights:
+  - If using Faster R-CNN:
+    ```bash
+    python3 train_frcnn.py -o simple -p data/train.txt
+    ```
+    **Note: for optional training arguments, read inside train_frcnn.py to find other arguments**
+  - If using U-Net:
+    ```bash
+    python3 train.py
+    ```
