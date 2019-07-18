@@ -121,7 +121,7 @@ class Detection():
             cv2.rectangle(img, (textPos[0]-5, textPos[1]+baseLine-5), (textPos[0]+retval[0]+5, textPos[1]-retval[1]-5), (0,0,0), 2)
             cv2.rectangle(img, (textPos[0]-5, textPos[1]+baseLine-5), (textPos[0]+retval[0]+5, textPos[1]-retval[1]-5), (255,255,255), -1)
             cv2.putText(img, label, textPos, cv2.FONT_HERSHEY_DUPLEX, self.font_size, (0,0,0), self.font_thickness)
-
+        
         return img
 
     # Method to transform the coordinates of the bounding box to its original size

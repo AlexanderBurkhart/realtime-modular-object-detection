@@ -8,16 +8,26 @@ from imutils.video import FileVideoStream
 from imutils.video import FPS
 import imutils
 
-w = 960
-h = 540
+from optparse import OptionParser
 
-d = Detection()
+parser = OptionParser()
+parser.add_option('--wr', '--writing', dest='writing', help='Is writing video or not.', default=False)
+parser.add_option('--wf', '--write_frames', dest='write_frames', help='How many frames to write to video.', default=-1)
+parser.add_option('--width', dest='width', help='Width of video.', default=960)
+parser.add_option('--height', dest='height', help='Height of video.', default=540)
+
+(options,args) = parser.parse_args()
+
+w = int(options.width)
+h = int(options.height)
+
+d = Detection(w,h)
 disp = Display(w,h)
 
-writing = False
-write_frames = 1000
+writing = options.writing
+write_frames = int(options.write_frames)
 fourcc = cv2.VideoWriter_fourcc(*'H264')
-wvid = cv2.VideoWriter('detection_of.mp4',fourcc,10.0,(w,h))
+wvid = cv2.VideoWriter('detection_of.mp4',fourcc,15.0,(w,h))
 
 fvs = FileVideoStream('videos/test.avi').start() #faster than cv2 videowriter
 print('Starting...')
@@ -35,8 +45,8 @@ while fvs.more():
 
     pimg = cv2.resize(pimg, (w,h))
     cimg = cv2.resize(cimg, (w,h))
-    bgr = d.detect(pimg, cimg)
-    disp.paint(bgr)
+    out = d.detect(pimg, cimg)
+    disp.paint(out)
     fps.update()
     fps.stop()
     print('fps: %f' % fps.fps())
@@ -49,4 +59,3 @@ if writing:
     print('Saved video')
 cv2.destroyAllWindows()
 fvs.stop()
-           

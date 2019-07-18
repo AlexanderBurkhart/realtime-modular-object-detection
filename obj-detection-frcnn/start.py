@@ -8,19 +8,28 @@ from imutils.video import FileVideoStream
 from imutils.video import FPS
 import imutils
 
+from optparse import OptionParser
 
-w = 960 #960
-h = 540 #540
+parser = OptionParser()
+parser.add_option('--wr', '--writing', dest='writing', help='Is writing video or not.', default=False)
+parser.add_option('--wf', '--write_frames', dest='write_frames', help='How many frames to write to video.', default=-1)
+parser.add_option('--width', dest='width', help='Width of video.', default=960)
+parser.add_option('--height', dest='height', help='Height of video.', default=540)
+parser.add_option('-n', '--nn', dest='using_nn', help='Using neural network.', default=True)
+parser.add_option('-z', '--zynq', dest='zynq_support', help='Using the zynq.', default=False)
 
-d = Detection(w,h, zynq_support=False, using_nn=True)
+(options,args) = parser.parse_args()
+
+w = int(options.width)
+h = int(options.height)
+
+d = Detection(w,h, zynq_support=options.zynq_support, using_nn=options.using_nn)
 disp = Display(w,h)
 
-writing = True
-write_frames = 1000
+writing = options.writing
+write_frames = int(options.write_frames)
 fourcc = cv2.VideoWriter_fourcc(*'H264')
-wvid = cv2.VideoWriter('detection_frcnn.mp4',fourcc,10.0,(w,h))
-
-numframes = 0
+wvid = cv2.VideoWriter('detection_frcnn.mp4',fourcc,30.0,(w,h))
 
 fvs = FileVideoStream('videos/test.avi').start() #faster than cv2 videowriter
 print('Starting...')

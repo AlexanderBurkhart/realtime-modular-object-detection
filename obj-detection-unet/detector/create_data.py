@@ -1,16 +1,32 @@
 import numpy as np
 import csv
+import os
+from optparse import OptionParser
 
 import cv2
 
-def create_data(num_frames=4500):
+def create_data(num_frames=4500, set='town'):
     #go through each frame and label it accordingly with the csv
     frame_labels = read_csv('data/data.csv')
     final_labels = []
     #print(frame_labels)
-   
+    if set=='town':
+        start_idx = 8
+        end_idx = 12
+    elif set=='custom':
+        start_idx = 1
+        end_idx = 5
+    else:
+        raise Exception('Unknown type set. Supported types are town and custom.')
+
     folder = 'train'
     vid = cv2.VideoCapture('data/test.avi')
+
+    if not os.path.exists('data/train'):
+        os.mkdir('data/train')
+    if not os.path.exists('data/val'):
+        os.mkdir('data/val')
+
     i = 0
     start = 0
     while True:
@@ -33,7 +49,7 @@ def create_data(num_frames=4500):
                 break
             #write boundaries
             bbox = []
-            for x in range(8,12):
+            for x in range(start_idx,end_idx):
                 bbox.append(int(frame_label[x]))
             cv2.rectangle(mask, (bbox[0],bbox[1]), (bbox[2],bbox[3]), (h,h,h), -1)
 
@@ -52,4 +68,10 @@ def read_csv(path):
             data.append(row)
     return data
 
-create_data()
+parser = OptionParser()
+parser.add_option('-d', '--data_set', dest='data_set', help='Type of data set.', default='town')
+(options, args) = parser.parse_args()
+
+data_set = options.data_set
+
+create_data(set=data_set)
