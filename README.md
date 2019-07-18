@@ -36,7 +36,7 @@ Results for each algorithm are shown below:
   ```bash
   python3 create_data.py
   ```
-- If using Faster R-CNN, once create_data.py is finished, rename the create train.csv to train.txt 
+- If using Faster R-CNN, once create_data.py is finished, rename the created train.csv to train.txt 
 - Run the following command to train the model/weights:
   - If using Faster R-CNN:
     ```bash
