@@ -11,8 +11,11 @@ All of the algorithms are tested on the [Town Centre data set](http://www.robots
 Results for each algorithm are shown below:
 
 #### Faster R-CNN:
+![](frcnn_gif.gif)
 #### U-Net:
+![](unet_gif.gif)
 #### Optical Flow with a Simple Classifier:
+![](of_gif.gif)
 
 ## Prerequisites
 - Python 3
