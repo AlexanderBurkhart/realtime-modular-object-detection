@@ -85,6 +85,6 @@ Results for each algorithm are shown below:
 - Implement a faster algorithm able to run object detection at a feasible frame rate
 - Link pretrained models
 
-## Credit
+## Sources
 Faster R-CNN Implementation:
 https://github.com/you359/Keras-FasterRCNN
