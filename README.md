@@ -18,6 +18,7 @@ Results for each algorithm are shown below:
 ![](of_gif.gif)
 
 ## Prerequisites
+- Ubuntu 18.04
 - Python 3
 - Keras
 - Tensorflow
@@ -78,6 +79,12 @@ Results for each algorithm are shown below:
      - set ```--wr``` to ```True``` if wanting to save a video  
      - set ```--wf``` to the the number of frames wanting to save to video (otherwise it saves the whole video)  
      - ```--width``` and ```--height``` can be set for a custom image size
+
+## Common Issues
+- If display is having issues running due to D-Bus run the following command:
+  ```bash
+  sudo killall ibus-daemon
+  ```
 
 ## Roadmap
 - Retrain Faster R-CNN model to be more accurate
