@@ -25,7 +25,7 @@ Results for each algorithm are shown below:
 - Imutils
 - Numpy
 
-## Train models with Town Centre Data Set (Only works for U-Net and Faster R-CNN)
+## Train Models with Town Centre Data Set (Only works for U-Net and Faster R-CNN)
 **Note: Make sure to use a computer with a powerful GPU(s) or Google Cloud/Amazon instance with a GPU(s) for best efficiency**
 - Download TownCenterXVID.avi from the [Town Centre data set](http://www.robots.ox.ac.uk/ActiveVision/Research/Projects/2009bbenfold_headpose/project.html#datasets) and rename the video to test.avi
 - Copy and paste the text from TownCentre-groundtruth.top from the data set website into a file called data.csv
@@ -46,7 +46,7 @@ Results for each algorithm are shown below:
     ```bash
     python3 train.py
     ```
-## Train models with Custom Data Set
+## Train Models with Custom Data Set
 - In order for create_data.py to be used on a custom data set, the data set should be layed out as followed:
   - video of file called test.avi inside of the data folder
   - csv file called data.csv inside of the data folder where each line is configured as shown:
