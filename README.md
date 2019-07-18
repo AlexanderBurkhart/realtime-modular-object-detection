@@ -36,7 +36,7 @@ Results for each algorithm are shown below:
   ```bash
   python3 create_data.py
   ```
-- If using Faster R-CNN, once create_data.py is finished, rename the created train.csv to train.txt 
+- If using Faster R-CNN, once create_data.py is finished, rename the created train.csv in the data folder to train.txt 
 - Run the following command to train the model/weights:
   - If using Faster R-CNN:
     ```bash
@@ -81,7 +81,7 @@ Results for each algorithm are shown below:
      - ```--width``` and ```--height``` can be set for a custom image size
 
 ## Common Issues
-- If display is having issues running due to D-Bus run the following command:
+- If the display is having issues running due to D-Bus run the following command:
   ```bash
   sudo killall ibus-daemon
   ```
