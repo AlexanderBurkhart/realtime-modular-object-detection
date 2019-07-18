@@ -81,7 +81,7 @@ Results for each algorithm are shown below:
      - ```--width``` and ```--height``` can be set for a custom image size
 
 ## Common Issues
-- If the display is having issues running due to D-Bus run the following command:
+- If the display is having issues running due to D-Bus, run the following command:
   ```bash
   sudo killall ibus-daemon
   ```
