@@ -1,8 +1,8 @@
 # Real Time Modular Object Detection
 
-This project is aimed to detect any specific type of object in real time by passing a dataset of the object. There are three folders that show the progress of the different algorithms in this project. 
+This project is aimed to detect any specific type of object in real time by passing a dataset of the object. There are three folders that show the different algorithms in this project. 
 
-- Has support to use [Zynq UltraScale+](https://www.xilinx.com/products/boards-and-kits/zcu104.html) as a processor for optical flow
+- Has support to use [Zynq UltraScale+](https://www.xilinx.com/products/boards-and-kits/zcu104.html) as a processor for optical flow for Faster R-CNN
 
 **Use the _obj-detection-frcnn_ for best results.**
 
@@ -26,9 +26,9 @@ Results for each algorithm are shown below:
 - Numpy
 
 ## Train models with Town Centre Data Set (Only works for U-Net and Faster R-CNN)
-**Note: Make sure to use a computer with a powerful GPU or Google Cloud/Amazon instance with GPU for best efficiency**
-- Download TownCenterXVID.avi from the Dataset linked above and rename the video to test.avi
-- Copy and paste the text from TownCentre-groundtruth.top into a file called data.csv
+**Note: Make sure to use a computer with a powerful GPU(s) or Google Cloud/Amazon instance with a GPU(s) for best efficiency**
+- Download TownCenterXVID.avi from the [Town Centre data set](http://www.robots.ox.ac.uk/ActiveVision/Research/Projects/2009bbenfold_headpose/project.html#datasets) and rename the video to test.avi
+- Copy and paste the text from TownCentre-groundtruth.top from the data set website into a file called data.csv
 - Create an empty folder called **data** in the corresponding algorithm folder(i.e. obj-detection-frcnn) **where there is a script called create_data.py.**
 - Place the test.avi file and data.csv file into the data folder
 - Run the create_data.py script with the following command
@@ -47,7 +47,7 @@ Results for each algorithm are shown below:
     python3 train.py
     ```
 ## Train models with Custom Data Set
-- In order for create_data.py to be used on a custom data set the data set should be layed out as followed:
+- In order for create_data.py to be used on a custom data set, the data set should be layed out as followed:
   - video of file called test.avi inside of the data folder
   - csv file called data.csv inside of the data folder where each line is configured as shown:
     ```vim
@@ -83,3 +83,8 @@ Results for each algorithm are shown below:
 - Retrain Faster R-CNN model to be more accurate
   - Train with a faster network
 - Implement a faster algorithm able to run object detection at a feasible frame rate
+- Link pretrained models
+
+## Credit
+Faster R-CNN Implementation:
+https://github.com/you359/Keras-FasterRCNN
