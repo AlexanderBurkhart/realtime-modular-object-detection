@@ -50,8 +50,7 @@ class Detection():
             (x,y,w,h) = cv2.boundingRect(i)
             cv2.rectangle(detection, (x,y), (x+w,y+h), (0,0,255),2) 
         return detection
-
-    #TODO: detects all moving objects with optical flow and narrows down with CNN classifier    
+  
     def detect_and_narrow(self, pimg, cimg):
         bgr = self.calc_of(pimg, cimg)
         _, contours, heir = cv2.findContours(bgr, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
