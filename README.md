@@ -78,3 +78,8 @@ Results for each algorithm are shown below:
      - set ```--wr``` to ```True``` if wanting to save a video  
      - set ```--wf``` to the the number of frames wanting to save to video (otherwise it saves the whole video)  
      - ```--width``` and ```--height``` can be set for a custom image size
+
+## Roadmap
+- retrain Faster R-CNN model to be more accurate
+  - train with a faster network
+- implement a faster algorithm able to run object detection at a feasible frame rate
