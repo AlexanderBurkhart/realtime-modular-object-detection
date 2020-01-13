@@ -10,7 +10,7 @@ from imutils.video import FPS
 import imutils
 
 class Detection():
-    def __init__(self, w, h):
+    def __init__(self, w, h, og_w, custom):
         self.cheat_data = self.read_csv('../detector/data/data.csv')
         
         self.obj_name = 'person'
@@ -19,7 +19,14 @@ class Detection():
 
         self.resize_w = w
         self.resize_h = h
-        self.multi = w/1920
+        self.multi = w/og_w
+        
+        if custom:
+            self.start_idx = 1
+            self.label_idx = 0
+        else:
+            self.start_idx = 8
+            self.label_idx = 1
 
         self.p = Predictor(self.resize_w, self.resize_h, 'models/model_detectorv2.h5')
 
@@ -59,15 +66,16 @@ class Detection():
 
         for i in range(self.c_start, len(self.cheat_data)):
             label = self.cheat_data[i]
-            if label[1] > nframe:
+            if label[self.label_idx] > nframe: #differnt for town data set
                 self.c_start = i
                 break
 
+            #different for town data set
             #find cleaner way to instantiate this
-            rect = [(int(label[8]*self.multi) if label[8] > 0 else 0, 
-                    int(label[9]*self.multi) if label[9] > 0 else 0), 
-                    (int(label[10]*self.multi) if label[10] > 0 else 0, 
-                    int(label[11]*self.multi) if label[11] > 0 else 0)]
+            rect = [(int(label[self.start_idx]*self.multi) if label[self.start_idx] > 0 else 0, 
+                    int(label[self.start_idx+1]*self.multi) if label[self.start_idx+1] > 0 else 0), 
+                    (int(label[self.start_idx+2]*self.multi) if label[self.start_idx+2] > 0 else 0, 
+                    int(label[self.start_idx+3]*self.multi) if label[self.start_idx+3] > 0 else 0)]
            
             moving, color = self.is_moving(flow, rect, type='color')
 
@@ -77,7 +85,7 @@ class Detection():
 
     def detect_nn(self, img):
         mask_image = cv2.resize(self.p.detect_object(img), (self.resize_w, self.resize_h))
-        _, contours, heir = cv2.findContours(mask_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        contours, heir = cv2.findContours(mask_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         detection = img.copy()
 
         flow = []
@@ -86,6 +94,7 @@ class Detection():
             del self.prev_imgs[0]
         self.prev_imgs.append(img)
 
+        print(len(contours))
         for i in contours:
             if cv2.contourArea(i) < 500:
                 continue
@@ -108,8 +117,8 @@ class Detection():
             cv2.rectangle(detection, (textPos[0]-5, textPos[1]+baseLine-5), (textPos[0]+retval[0]+5, textPos[1]-retval[1]-5), (0,0,0), 2)
             cv2.rectangle(detection, (textPos[0]-5, textPos[1]+baseLine-5), (textPos[0]+retval[0]+5, textPos[1]-retval[1]-5), (255,255,255), -1)
             cv2.putText(detection, label, textPos, cv2.FONT_HERSHEY_DUPLEX, self.font_size, (0,0,0), self.font_thickness)
-  
-
+        #cv2.imshow('mask', mask_image)
+        #cv2.waitKey(0)
         return detection
 
     #HAS ISSUES WHEN PERSON IS BEHIND AN OBSTACLE
