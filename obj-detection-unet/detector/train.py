@@ -14,8 +14,8 @@ from keras.utils.np_utils import to_categorical
 
 from model import get_model, preprocess
 
-img_rows = 1080
-img_cols = 1920
+img_rows = 480
+img_cols = 640
 
 def train_and_predict():
     print('Loading and preprocessing data...')

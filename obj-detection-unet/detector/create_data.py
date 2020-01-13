@@ -31,18 +31,17 @@ def create_data(num_frames=4500, set='town'):
         os.mkdir('data/val')
 
     i = 0
+    name_idx = 0
     start = 0
     while True:
         read, frame = vid.read()
         if not read or i==num_frames+1:
             break
         if i > num_frames/2:
-            folder = 'val'
-        name = 'frame'+str(i)
-        cv2.imwrite('data/'+folder+'/'+name+'.jpg', frame)
-
+            folder = 'val' 
+        
+        #create mask
         mask = np.zeros(frame.shape, dtype=np.uint8)
-
         print('reading frame %i...' % i)
         h = 1
         for j in range(start,len(frame_labels)):
@@ -68,12 +67,44 @@ def create_data(num_frames=4500, set='town'):
                         int((bbox[2]-bbox[0])/2), (255,255,255), -1)
 
             h += 1
-        cv2.imshow('mask', mask)
-        cv2.imshow('img', frame)
-        cv2.waitKey(0)
+
+        #cv2.imshow('mask', mask)
+        #cv2.imshow('img', frame)
+        #cv2.waitKey(0)
         print('num objects: %i' % h)
-        cv2.imwrite('data/'+folder+'/'+name+'_mask.jpg', mask)
+
+        #no edit
+        cv2.imwrite('data/'+folder+'/frame'+str(name_idx)+'.jpg', frame)
+        cv2.imwrite('data/'+folder+'/frame'+str(name_idx)+'_mask.jpg', mask)
+        name_idx += 1
+
+        #brighter
+        cv2.imwrite('data/'+folder+'/frame'+str(name_idx)+'.jpg', adjust_gamma(frame, gamma=1.5))
+        cv2.imwrite('data/'+folder+'/frame'+str(name_idx)+'_mask.jpg', mask)
+        name_idx += 1
+        
+        #darker
+        cv2.imwrite('data/'+folder+'/frame'+str(name_idx)+'.jpg', adjust_gamma(frame, gamma=0.5))
+        cv2.imwrite('data/'+folder+'/frame'+str(name_idx)+'_mask.jpg', mask)
+        name_idx += 1
+        
+        #blur
+        cv2.imwrite('data/'+folder+'/frame'+str(name_idx)+'.jpg', blur(frame, k=7))
+        cv2.imwrite('data/'+folder+'/frame'+str(name_idx)+'_mask.jpg', mask)
+        name_idx += 1
+
         i += 1
+
+def adjust_gamma(img, gamma=1.0):
+    invGamma = 1.0 / gamma
+    table = np.array([((i / 255.0) ** invGamma) * 255
+    	for i in np.arange(0, 256)]).astype("uint8")
+
+    # apply gamma correction using the lookup table
+    return cv2.LUT(img, table)
+
+def blur(img, k=0):
+    return cv2.GaussianBlur(img, (k,k), 0)
 
 def read_csv(path):
     data = []
