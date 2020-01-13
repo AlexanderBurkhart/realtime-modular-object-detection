@@ -1,4 +1,5 @@
 import numpy as np
+from numpy import unique
 import csv
 import os
 from optparse import OptionParser
@@ -13,9 +14,11 @@ def create_data(num_frames=4500, set='town'):
     if set=='town':
         start_idx = 8
         end_idx = 12
+        label_idx = 1
     elif set=='custom':
         start_idx = 1
         end_idx = 5
+        label_idx = 0
     else:
         raise Exception('Unknown type set. Supported types are town and custom.')
 
@@ -44,17 +47,30 @@ def create_data(num_frames=4500, set='town'):
         h = 1
         for j in range(start,len(frame_labels)):
             frame_label = frame_labels[j]
-            if(frame_label[1] != i):
+            if(frame_label[label_idx] != i):
                 start = j
                 break
             #write boundaries
             bbox = []
             for x in range(start_idx,end_idx):
                 bbox.append(int(frame_label[x]))
-            cv2.rectangle(mask, (bbox[0],bbox[1]), (bbox[2],bbox[3]), (h,h,h), -1)
+           
+            if(len(unique(bbox)) <= 1):
+                continue
+
+            #print('tl_x: %i, tl_y: %i, br_x: %i, br_y: %i' % (bbox[0], bbox[1], bbox[2], bbox[3]))
+            
+            #rectangle mask
+            #cv2.rectangle(mask, (bbox[0],bbox[1]), (bbox[2],bbox[3]), (255,255,255), -1)
+
+            #circle mask
+            cv2.circle(mask, (int((bbox[0]+bbox[2])/2), int((bbox[1]+bbox[3])/2)), 
+                        int((bbox[2]-bbox[0])/2), (255,255,255), -1)
 
             h += 1
-        
+        cv2.imshow('mask', mask)
+        cv2.imshow('img', frame)
+        cv2.waitKey(0)
         print('num objects: %i' % h)
         cv2.imwrite('data/'+folder+'/'+name+'_mask.jpg', mask)
         i += 1
