@@ -18,6 +18,14 @@ img_rows = 480
 img_cols = 640
 
 def train_and_predict():
+    
+    print('Creating model...')
+
+    model = get_model(img_rows/5, img_cols/5)
+    
+    print('Done')
+    print('-')
+
     print('Loading and preprocessing data...')
 
     imgs_train, imgs_train_mask = load_data('data/train')
@@ -31,13 +39,6 @@ def train_and_predict():
     imgs_train_mask = imgs_train_mask.astype('float32')
     
     print('Done.')
-    print('-')
-
-    print('Creating model...')
-
-    model = get_model()
-    
-    print('Done')
     print('-')
 
     print('Training model...')

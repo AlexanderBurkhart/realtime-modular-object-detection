@@ -7,8 +7,8 @@ from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, Conv2DTranspo
 from keras.optimizers import Adam
 from keras import backend as K
 
-img_rows = 288
-img_cols = 384
+img_rows = 0
+img_cols = 0
 smooth = 1.0
 
 def dice_coef(y_true, y_pred):
@@ -20,7 +20,10 @@ def dice_coef(y_true, y_pred):
 def dice_coef_loss(y_true, y_pred):
 	return -dice_coef(y_true, y_pred)
 
-def get_model():
+def get_model(rows, cols):
+        img_rows = rows
+        img_cols = cols
+
 	inputs = Input((img_rows, img_cols, 1))
 	
 	conv1 = Conv2D(32, (3, 3), activation='relu', padding='same', trainable=True)(inputs)

@@ -19,9 +19,10 @@ class Predictor():
     def __init__(self, w, h, modelpath):
         self.detector_model = load_model(modelpath, custom_objects={'dice_coef_loss': dice_coef_loss, 'dice_coef': dice_coef})
         self.detector_model._make_predict_function()
-        
-        self.resize_width = 384
-        self.resize_height = 288
+       
+        print('w ' + str(w) + ' h ' + str(h))
+        self.resize_width = int(w/5)
+        self.resize_height = int(h/5)
 
         self.resize_height_ratio = h/float(self.resize_height)
         self.resize_width_ratio = w/float(self.resize_width)
