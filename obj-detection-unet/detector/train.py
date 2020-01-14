@@ -130,9 +130,9 @@ def load_data(folder):
         imgs[i+5] = flip(imgs[i], 1)
         imgs_mask[i+5] = flip(imgs_mask[i], 1)
 
-        cv2.imshow('img', imgs[i+4])
+        #cv2.imshow('img', imgs[i+4])
         #cv2.imshow('img_mask', imgs_mask[i+4])
-        cv2.waitKey(0)
+        #cv2.waitKey(0)
 
         print('Loading frame %i...' % (i/inc))
         i += inc			
