@@ -21,7 +21,7 @@ def train_and_predict():
     
     print('Creating model...')
 
-    model = get_model(img_rows/5, img_cols/5)
+    model = get_model(int(img_rows/5), int(img_cols/5))
     
     print('Done')
     print('-')
