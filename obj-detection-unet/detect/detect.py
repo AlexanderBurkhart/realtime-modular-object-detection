@@ -10,10 +10,10 @@ from imutils.video import FPS
 import imutils
 
 class Detection():
-    def __init__(self, w, h, og_w, custom):
+    def __init__(self, w, h, og_w, custom, obj_name, is_ofcalc=False):
         self.cheat_data = self.read_csv('../detector/data/data.csv')
         
-        self.obj_name = 'person'
+        self.obj_name = obj_name
         self.c_start = 0
         self.prev_imgs = []
 
@@ -27,6 +27,8 @@ class Detection():
         else:
             self.start_idx = 8
             self.label_idx = 1
+
+        self.is_ofcalc = is_ofcalc
 
         self.p = Predictor(self.resize_w, self.resize_h, 'models/model_detectorv2.h5')
 
@@ -91,13 +93,14 @@ class Detection():
 
         flow = []
         if len(self.prev_imgs) == self.skipped_frames:
-            flow = self.calc_of(self.prev_imgs[0], img)
+            if self.is_ofcalc == True:
+                flow = self.calc_of(self.prev_imgs[0], img)
             del self.prev_imgs[0]
         self.prev_imgs.append(img)
 
-        print(len(contours))
+        #print(len(contours))
         for i in contours:
-            if cv2.contourArea(i) < 500:
+            if cv2.contourArea(i) < 1000:
                 continue
             (x,y,w,h) = cv2.boundingRect(i)
             rect = [(x,y),(x+w,y+h)]
@@ -118,8 +121,8 @@ class Detection():
             cv2.rectangle(detection, (textPos[0]-5, textPos[1]+baseLine-5), (textPos[0]+retval[0]+5, textPos[1]-retval[1]-5), (0,0,0), 2)
             cv2.rectangle(detection, (textPos[0]-5, textPos[1]+baseLine-5), (textPos[0]+retval[0]+5, textPos[1]-retval[1]-5), (255,255,255), -1)
             cv2.putText(detection, label, textPos, cv2.FONT_HERSHEY_DUPLEX, self.font_size, (0,0,0), self.font_thickness)
-        cv2.imshow('mask', mask_image)
-        cv2.waitKey(0)
+        #cv2.imshow('mask', mask_image)
+        #cv2.waitKey(0)
         return detection
 
     #HAS ISSUES WHEN PERSON IS BEHIND AN OBSTACLE
