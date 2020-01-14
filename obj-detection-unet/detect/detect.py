@@ -84,6 +84,7 @@ class Detection():
         return clone        
 
     def detect_nn(self, img):
+        img = self.adjust_gamma(img, 0.4) #ONLY FOR THE BALLS
         mask_image = cv2.resize(self.p.detect_object(img), (self.resize_w, self.resize_h))
         contours, heir = cv2.findContours(mask_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         detection = img.copy()
@@ -117,8 +118,8 @@ class Detection():
             cv2.rectangle(detection, (textPos[0]-5, textPos[1]+baseLine-5), (textPos[0]+retval[0]+5, textPos[1]-retval[1]-5), (0,0,0), 2)
             cv2.rectangle(detection, (textPos[0]-5, textPos[1]+baseLine-5), (textPos[0]+retval[0]+5, textPos[1]-retval[1]-5), (255,255,255), -1)
             cv2.putText(detection, label, textPos, cv2.FONT_HERSHEY_DUPLEX, self.font_size, (0,0,0), self.font_thickness)
-        #cv2.imshow('mask', mask_image)
-        #cv2.waitKey(0)
+        cv2.imshow('mask', mask_image)
+        cv2.waitKey(0)
         return detection
 
     #HAS ISSUES WHEN PERSON IS BEHIND AN OBSTACLE
@@ -153,3 +154,12 @@ class Detection():
                     row = list(map(float, row))
                     data.append(row)
         return data
+
+    def adjust_gamma(self, img, gamma=1.0):
+        invGamma = 1.0 / gamma
+        table = np.array([((i / 255.0) ** invGamma) * 255
+            for i in np.arange(0, 256)]).astype("uint8")
+
+        # apply gamma correction using the lookup table
+        return cv2.LUT(img, table)
+

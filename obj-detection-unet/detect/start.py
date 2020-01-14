@@ -54,8 +54,8 @@ while fvs.more():
         time.sleep(0.5)
         cv2.destroyAllWindows()
 
-    #out = d.detect_nn(cimg)
-    out = d.cheat_detect(cimg, i)
+    out = d.detect_nn(cimg)
+    #out = d.cheat_detect(cimg, i)
     disp.paint(out)
     fps.update()
     fps.stop()

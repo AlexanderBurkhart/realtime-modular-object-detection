@@ -56,7 +56,7 @@ def train_and_predict():
 
 def get_image_and_mask(image_name):
     image_mask_path = image_name.split('.')[0] + '_mask.jpg'
-    img = cv2.imread(image_name)
+    img = adjust_gamma(cv2.imread(image_name), gamma=0.4)
     img_mask = np.array([])
     
     if os.path.exists(image_mask_path):
@@ -66,8 +66,12 @@ def get_image_and_mask(image_name):
 
     return np.array([img]), np.array([img_mask])
 
+#flip image
+def flip(img, dir):
+    return cv2.flip(img, dir)
+
 #blur the image with gaussian blur
-def blur(img, k=3):
+def blur(img, k=5):
     return cv2.GaussianBlur(img, (k, k), 0)
 
 #change the img to be brighter
@@ -83,8 +87,17 @@ def brightness(img, value=60):
     img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
     return img
 
+def adjust_gamma(img, gamma=1.0):
+    invGamma = 1.0 / gamma
+    table = np.array([((i / 255.0) ** invGamma) * 255
+        for i in np.arange(0, 256)]).astype("uint8")
+
+    # apply gamma correction using the lookup table
+    return cv2.LUT(img, table)
+
+
 def load_data(folder):
-    inc = 4
+    inc = 6
     total = len(glob.glob(folder+'/*jpg'))*inc//2
 
     imgs = np.ndarray((total, img_rows, img_cols, 3), dtype=np.uint8)
@@ -102,14 +115,24 @@ def load_data(folder):
         #print(path)
         imgs[i], imgs_mask[i] = get_image_and_mask(path)
 
-        imgs[i+1] = brightness(imgs[i])
+        imgs[i+1] = adjust_gamma(imgs[i], gamma=0.6) 
         imgs_mask[i+1] = imgs_mask[i]
 
-        imgs[i+2] = blur(imgs[i])
+        imgs[i+2] = blur(imgs[i]) 
         imgs_mask[i+2] = imgs_mask[i]
 
         imgs[i+3] = blur(imgs[i+1])
         imgs_mask[i+3] = imgs_mask[i]
+
+        imgs[i+4] = flip(imgs[i], 0)
+        imgs_mask[i+4] = flip(imgs_mask[i], 0)
+
+        imgs[i+5] = flip(imgs[i], 1)
+        imgs_mask[i+5] = flip(imgs_mask[i], 1)
+
+        cv2.imshow('img', imgs[i+4])
+        #cv2.imshow('img_mask', imgs_mask[i+4])
+        cv2.waitKey(0)
 
         print('Loading frame %i...' % (i/inc))
         i += inc			
